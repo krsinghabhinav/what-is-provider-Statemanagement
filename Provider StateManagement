@@ -1,0 +1,322 @@
+Provider state management is a Flutter package that helps developers manage and share data across their app's widgets and screens. 
+It's a popular choice for Flutter developers because it's simple, flexible, and performs well.
+
+**State Management Provider**
+we are going to learn how state management is achieved in flutter using providers. But before that, we need to know what a state is. 
+As we know that everything in flutter is a widget and there are mainly two kinds of widgets Stateless Widget and Stateful Widgets. 
+Stateless widgets are those widgets whose state cannot be changed once created. It can be only when it is reinitialized. 
+On the other hand, stateful widgets are dynamic in nature which means their state can change at any time throughout their lifecycle without reinitializing it.
+
+What is a State?
+State is the information that is read once the widget is built. It can be changed or modified throughout the lifecycle of the app. 
+According to the official documentation of flutter, flutter is declarative in nature which means that the UI  in flutter is a function of the state. 
+That means the UI of a flutter app is built based on the state of the widgets.
+
+In the case of a stateful widget the setState() method is used to change the state and that forces the UI to rebuild. 
+However, it is not an efficient method for state management and will learn state management using the provider package
+which is a better state management technique in the latter half of this article.
+
+Now before using the provider package we need to understand the three basic concepts about it:
+
+ChangeNotifier
+ChangeNotifierProvider
+Consumer
+notifyListeners() 
+
+ChangeNotifier
+It is a class that provides notifications for changes to its listeners. It is a simpler way to use for a small number of listeners. 
+It uses notifyListeners() method to notify its listeners about changes in the model.
+
+ChangeNotifierProvider
+In simple terms, ChangeNotifierProvider is just a widget that provides the instance of a ChangeNotifier.
+
+Consumer
+It is a widget that contains a builder function and is used to build the UI based on changes in the model. 
+The builder function will have three parameters context, counter, and child.  context is the same as every other build function of the widget. 
+The counter is the CounterModel member that was observed for change. The third argument child is used for optimization.
+
+**********************************************************************************************
+Provider ek Flutter ka state management package hai jo aapko Flutter applications mein state ko efficiently manage karne mein madad karta hai. Yeh ek dependency injection framework hai, 
+jo aapko data ya state ko easily share karne deta hai bina kisi complex code ke, across different widget
+
+Key Points:
+State Management: Provider aapke app mein state ko hold aur update karne ke liye use hota hai. 
+Jaise, agar aapko kisi widget ko ek naya data pass karna hai jab state change hoti hai, toh aap directly uss widget tak jaane ki jagah Provider use kar sakte ho,
+jo ki saare dependent widgets ko update kar deta hai.
+
+Reactivity: Jab bhi state ya data change hota hai, Provider aapke widgets ko automatically rebuild karta hai jisse latest data show ho.
+
+Easy to use: Yeh kaafi simple aur lightweight package hai jo beginners ke liye bhi easy hai, aur large scale apps ke liye bhi powerful.
+
+Example mein, agar aapke paas ek counter app hai, toh aap Provider ko use kar ke counter ka state manage kar sakte ho, jisse app ka structure clean aur maintainable rahega.
+
+1. State Management:
+Explanation: State management ka matlab hai app ke data (ya state) ko control karna. Flutter mein jab hum koi data change karte hain, 
+toh humein ensure karna padta hai ki widgets properly update ho. 
+Agar aapka app chhota hai toh yeh easy hota hai, lekin bade apps mein manage karna complex ho jata hai.
+Provider ka Role: Provider yeh kaam asaan bana deta hai. Aap state ko globally manage kar sakte ho aur data ko directly different widgets tak pass karne ke bajaye,
+ek centralized location se share kar sakte ho. Agar kisi widget ko naya data chahiye, toh wo directly Provider se access kar lega.
+
+2. Reactivity:
+Explanation: Jab aap Flutter app develop karte ho, toh aapko chahiye ki app dynamic ho. Iska matlab hai ki jab bhi data change ho,
+toh app ki appearance ko bhi reflect hona chahiye bina manually widgets ko update karne ke.
+Provider ka Role: Provider automatically reactivity manage karta hai. Jab bhi aap state ko update karte ho (for example, data increase ya decrease hota hai),
+wo sabse pehle related widgets ko notify karta hai jisse un widgets ko rebuild kar sakein aur latest data dikh sake.
+
+3. Easy to Use:
+Explanation: Provider Flutter apps mein use karne ke liye kaafi simple hai. Isko use karna beginners ke liye bhi asaan hota hai.
+Aapko bas ChangeNotifierProvider ya Provider wrap karna hota hai top-level widget ke around. 
+Phir aap easily kisi bhi widget mein Consumer ya Provider.of ke through data access kar sakte ho.
+Provider ka Role: Provider ka syntax aur structure simple hota hai. Ismein koi heavy setup ya configurations ki zaroorat nahi hoti. 
+Ek clean aur readable code structure ke sath app develop karne mein madad milti hai.
+
+4. Efficiency:
+Explanation: Large apps mein aapko performance ka bhi dhyan rakhna padta hai. Har baar poora widget tree rebuild karna inefficient hota hai. 
+Isliye aapko selective updates chahiye hoti hain, jaha sirf wahi widgets update ho jo specific state ke sath linked hain.
+Provider ka Role: Provider yeh ensure karta hai ki sirf wahi widgets rebuild ho jahan change hua hai. 
+Is wajah se app fast aur efficient rehti hai. Widgets unnecessary rebuild nahi hote, jo performance ko enhance karta hai.
+
+5. Global Access:
+Explanation: Flutter mein data ko ek widget se doosre widget tak pass karna prop drilling ke through ho sakta hai, 
+lekin jab bahut saare layers ho jaate hain, toh yeh tedious ho jaata hai.
+Provider ka Role: Provider ke sath aap state ko globally access kar sakte ho. 
+Aapko data share karne ke liye widgets ko manually pass karne ki zaroorat nahi hoti. Har widget ko directly Provider se data milta hai, chahe wo kitna bhi nested ho.
+
+*****ChangeNotifier ka kaam:
+ChangeNotifier Flutter mein ek class hoti hai jo Provider package ke sath commonly use hoti hai state management ke liye. 
+Iska primary role hai jab bhi state ya data change hota hai, tab automatically widgets ko notify karna jisse wo apne aap update ho jaayein.
+
+ChangeNotifier ka kaam:
+State Ko Hold Karna:
+ChangeNotifier ek aisi class hai jisme aap apna data ya state hold karte ho. Aap ChangeNotifier ke andar variables define karte ho jo state ko represent karte hain. 
+Jaise, agar aap counter app bana rahe ho, toh counter ki value ko hold karna ChangeNotifier ka kaam hoga.
+
+NotifyListeners:
+Jab bhi aap apni state ya data ko change karte ho, aapko manually batana padta hai ki ab state update ho gayi hai. 
+Iska kaam notifyListeners() karta hai. Jab aap notifyListeners() call karte ho, 
+toh jo bhi widgets is ChangeNotifier ke sath connected hote hain, wo automatically update ho jate hain.
+
+class Counter extends ChangeNotifier {
+  int _count = 0;
+  int get count => _count;
+}
+Yahaan _count ek private variable hai jo state ko hold kar raha hai.
+
+NotifyListeners:
+
+Jab bhi aap apni state ya data ko change karte ho, aapko manually batana padta hai ki ab state update ho gayi hai. 
+Iska kaam notifyListeners() karta hai. Jab aap notifyListeners() call karte ho, toh jo bhi widgets is ChangeNotifier ke sath connected hote hain, 
+wo automatically update ho jate hain.
+void increment() {
+  _count++;
+  notifyListeners(); // Yeh sab connected widgets ko notify karega
+}
+Jab increment() function call hota hai, toh state badalti hai, aur notifyListeners() ki wajah se widgets ko pata chal jata hai ki state change ho gayi hai, 
+toh wo apne aap rebuild ho jaate hain.
+
+State Ko Share Karna:
+ChangeNotifier ko aap Provider ke sath wrap karte ho jisse yeh state app ke kisi bhi part mein accessible ho jaaye. 
+Aap ChangeNotifierProvider use karke state ko globally share kar sakte ho.
+ChangeNotifierProvider(
+  create: (context) => Counter(), // State ko provide kar rahe hain
+  child: MyApp(),
+);
+
+Efficient Updates:
+ChangeNotifier ensures karta hai ki sirf wahi widgets rebuild ho jo state ko use kar rahe hain. 
+Is wajah se unnecessary rebuilds nahi hote, aur app fast aur efficient rehti hai.
+
+Separation of Concerns:
+ChangeNotifier ke sath aap logic aur UI ko separate kar sakte ho. State-related logic ChangeNotifier class ke andar rehta hai, 
+aur UI se related cheezein alag. Isse aapka code well-organized aur maintainable ho jata hai.
+class Counter extends ChangeNotifier {
+  int _count = 0;
+
+  int get count => _count;
+
+  void increment() {
+    _count++;
+    notifyListeners(); // Widgets ko notify karta hai
+  }
+}
+--------------------------------
+ChangeNotifierProvider(
+  create: (context) => Counter(),
+  child: Consumer<Counter>(
+    builder: (context, counter, child) {
+      return Text(counter.count.toString()); // Automatic update hota hai jab state change hoti hai
+    },
+  ),
+);
+
+
+ChangeNotifier Flutter mein ek class hoti hai jo Provider package ke sath commonly use hoti hai state management ke liye. Iska primary role hai jab bhi state ya data change hota hai, tab automatically widgets ko notify karna jisse wo apne aap update ho jaayein.
+
+ChangeNotifier ka kaam:
+State Ko Hold Karna:
+
+ChangeNotifier ek aisi class hai jisme aap apna data ya state hold karte ho. Aap ChangeNotifier ke andar variables define karte ho jo state ko represent karte hain. Jaise, agar aap counter app bana rahe ho, toh counter ki value ko hold karna ChangeNotifier ka kaam hoga.
+Example:
+
+dart
+Copy code
+class Counter extends ChangeNotifier {
+  int _count = 0;
+
+  int get count => _count;
+}
+Yahaan _count ek private variable hai jo state ko hold kar raha hai.
+
+NotifyListeners:
+
+Jab bhi aap apni state ya data ko change karte ho, aapko manually batana padta hai ki ab state update ho gayi hai. Iska kaam notifyListeners() karta hai. Jab aap notifyListeners() call karte ho, toh jo bhi widgets is ChangeNotifier ke sath connected hote hain, wo automatically update ho jate hain.
+Example:
+
+dart
+Copy code
+void increment() {
+  _count++;
+  notifyListeners(); // Yeh sab connected widgets ko notify karega
+}
+Jab increment() function call hota hai, toh state badalti hai, aur notifyListeners() ki wajah se widgets ko pata chal jata hai ki state change ho gayi hai, toh wo apne aap rebuild ho jaate hain.
+
+State Ko Share Karna:
+
+ChangeNotifier ko aap Provider ke sath wrap karte ho jisse yeh state app ke kisi bhi part mein accessible ho jaaye. Aap ChangeNotifierProvider use karke state ko globally share kar sakte ho.
+Example:
+
+dart
+Copy code
+ChangeNotifierProvider(
+  create: (context) => Counter(), // State ko provide kar rahe hain
+  child: MyApp(),
+);
+Efficient Updates:
+
+ChangeNotifier ensures karta hai ki sirf wahi widgets rebuild ho jo state ko use kar rahe hain. Is wajah se unnecessary rebuilds nahi hote, aur app fast aur efficient rehti hai.
+Separation of Concerns:
+
+ChangeNotifier ke sath aap logic aur UI ko separate kar sakte ho. State-related logic ChangeNotifier class ke andar rehta hai, aur UI se related cheezein alag. Isse aapka code well-organized aur maintainable ho jata hai.
+Overall Working Example:
+dart
+Copy code
+class Counter extends ChangeNotifier {
+  int _count = 0;
+
+  int get count => _count;
+
+  void increment() {
+    _count++;
+    notifyListeners(); // Widgets ko notify karta hai
+  }
+}
+dart
+Copy code
+ChangeNotifierProvider(
+  create: (context) => Counter(),
+  child: Consumer<Counter>(
+    builder: (context, counter, child) {
+      return Text(counter.count.toString()); // Automatic update hota hai jab state change hoti hai
+    },
+  ),
+);
+
+Conclusion:
+ChangeNotifier ka main kaam hai:
+State ko hold karna
+Jab state change ho toh widgets ko notify karna (notifyListeners() ke through)
+Efficient aur organized way mein state ko manage karna
+
+Consumer ka kaam:
+Consumer Flutter mein ek widget hai jo Provider package ke sath use hota hai. Iska main kaam hai provider ke andar stored state 
+ko access karna aur widgets ko reactively update karna jab bhi state change hoti hai.
+
+Consumer ka kaam:
+State Ko Access Karna:
+Consumer aapko Provider ke andar jo bhi state ya data stored hai, usse access karne ka easy tarika deta hai bina context mein ghuse.
+Iska main fayda ye hai ki Consumer sirf un parts ko rebuild karta hai jo directly state ko use kar rahe hain. Bina Consumer ke agar aap poora widget tree rebuild karte,
+toh app ka performance slow ho sakta tha.
+
+Consumer<Counter>(
+  builder: (context, counter, child) {
+    return Text(counter.count.toString());
+  },
+)
+
+Yahaan Consumer ke through hum Counter state access kar rahe hain aur usko Text widget mein dikhate hain. Jab state badlegi, Text widget automatically update ho jayega.
+
+Efficient Rebuilds:
+Consumer ka ek bada advantage hai ki yeh sirf wahi part of UI ko rebuild karta hai jo state se directly connected hota hai. Agar aapke paas complex UI hai aur aap nahi chahte ki poora widget tree unnecessary rebuild ho, toh Consumer use kar sakte ho.
+Example: Agar aapke paas AppBar, Body, aur Footer hain, aur sirf Body ko state change hone par update karna hai, toh aap Consumer se sirf Body ko wrap kar sakte ho, jisse baaki widgets unaffected rahenge.
+
+Builder Function:
+Consumer ke andar ek builder function hota hai, jisme 3 parameters pass hote hain:
+context: Flutter ka build context jo har widget ke sath hota hai.
+model/state: Yeh wo state hoti hai jo aap Provider ke through pass kar rahe ho. Is case mein, yeh Counter object hoga jisme current state ya data stored hai.
+child (optional): Agar aapko ek aisi part of widget tree deni hai jo change nahi hoga, toh aap child use kar sakte ho. 
+Yeh performance ke liye acha hota hai kyunki yeh child ko rebuild nahi karega.
+
+Consumer<Counter>(
+  builder: (context, counter, child) {
+    return Column(
+      children: [
+        Text(counter.count.toString()),
+        child, // Yeh child kabhi rebuild nahi hoga
+      ],
+    );
+  },
+  child: ElevatedButton(
+    onPressed: () {},
+    child: Text('Static Button'), // Static button jo rebuild nahi hoga
+  ),
+)
+
+Dynamic UI Updates:
+Consumer ki madad se aap real-time dynamic UI changes kar sakte ho. Jab state change hoti hai, Consumer automatic wo widgets ko update kar deta hai jo us state ko consume kar rahe hain.
+Yeh interactive apps mein kaafi useful hota hai, jaise counter app, shopping cart, ya koi form validation, jaha user ke actions ke according UI update hota hai.
+
+Separation of Logic and UI:
+Consumer ki wajah se aap apne UI aur business logic ko separate rakh sakte ho. Aapke logic aur data management classes (jaise ChangeNotifier) alag hote hain aur UI alag. 
+Jab bhi data ya state change hota hai, aapko sirf UI part ko Consumer ke through update karna hota hai, jisse code clean aur maintainable rehta hai.
+// Counter class jo state ko manage kar rahi hai
+class Counter extends ChangeNotifier {
+  int _count = 0;
+
+  int get count => _count;
+
+  void increment() {
+    _count++;
+    notifyListeners();
+  }
+}
+
+// Consumer ke through state access kar rahe hain
+ChangeNotifierProvider(
+  create: (context) => Counter(),
+  child: Scaffold(
+    appBar: AppBar(title: Text('Counter App')),
+    body: Consumer<Counter>(
+      builder: (context, counter, child) {
+        return Center(
+          child: Text(
+            'Counter value: ${counter.count}',
+            style: TextStyle(fontSize: 24),
+          ),
+        );
+      },
+    ),
+    floatingActionButton: Consumer<Counter>(
+      builder: (context, counter, child) {
+        return FloatingActionButton(
+          onPressed: counter.increment,
+          child: Icon(Icons.add),
+        );
+      },
+    ),
+  ),
+);
+
+
+Summary:
+Consumer widget Flutter mein state ko efficiently access karne aur dynamically update karne ke liye use hota hai.
+Key benefits: Selective rebuilds, easy state access, dynamic UI updates, aur logic ko UI se separate rakhna
